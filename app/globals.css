@@ -1,26 +1,124 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --sm-black: #0f0f10;
+  --sm-red: #c1121f;
+  --sm-red-dark: #8b0000;
+  --sm-white: #ffffff;
+  --sm-gray: #e5e7eb;
+  --sm-border: #262626;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-sm-black: var(--sm-black);
+  --color-sm-red: var(--sm-red);
+  --color-sm-red-dark: var(--sm-red-dark);
+  --color-sm-white: var(--sm-white);
+  --color-sm-gray: var(--sm-gray);
+  --color-sm-border: var(--sm-border);
+  --font-display: var(--font-bebas);
+  --font-sans: var(--font-manrope);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--sm-black);
+  color: var(--sm-white);
+  font-family: var(--font-manrope), system-ui, sans-serif;
+}
+
+::selection {
+  background: var(--sm-red);
+  color: var(--sm-white);
+}
+
+/* Topographic pattern for hero */
+.hero-topo {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240' viewBox='0 0 240 240'%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='0.7' opacity='0.55'%3E%3Cpath d='M10 40c28 8 48-18 78-10s46 30 76 18 42-28 66-14'/%3E%3Cpath d='M0 80c30 10 52-16 82-8s48 28 78 16 44-24 70-10'/%3E%3Cpath d='M8 120c26 8 50-14 78-6s50 24 78 12 46-22 68-8'/%3E%3Cpath d='M-4 160c32 12 54-12 86-4s52 22 80 10 48-20 74-6'/%3E%3Cpath d='M12 200c28 8 46-16 76-8s50 24 78 12 42-20 66-8'/%3E%3Cpath d='M20 28c22-14 44 8 68 2s40-22 64-8 36 18 58 6'/%3E%3Cpath d='M4 100c24-12 46 10 70 4s42-20 66-6 38 16 60 4'/%3E%3Cpath d='M16 140c20-12 44 8 68 2s44-18 66-6 40 14 62 2'/%3E%3Cpath d='M0 180c26-10 48 8 74 2s46-16 72-4 44 12 68 0'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 240px 240px;
+  opacity: 0.14;
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+}
+
+/* Scroll reveal — sin JS se muestran igual (evita página “cortada”) */
+.reveal {
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html.js-ready .reveal:not(.is-visible) {
+  opacity: 0;
+  transform: translateY(1.5rem);
+  will-change: opacity, transform;
+}
+
+html.js-ready .reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  will-change: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  html.js-ready .reveal:not(.is-visible) {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .animate-fade-up,
+  .animate-ken-burns {
+    animation: none !important;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(1.25rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes ken-burns {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.06);
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.9s ease-out both;
+}
+
+.animate-ken-burns {
+  animation: ken-burns 18s ease-out forwards;
+}
+
+.delay-100 {
+  animation-delay: 100ms;
+}
+
+.delay-200 {
+  animation-delay: 200ms;
+}
+
+.delay-300 {
+  animation-delay: 300ms;
+}
+
+.delay-400 {
+  animation-delay: 400ms;
 }
