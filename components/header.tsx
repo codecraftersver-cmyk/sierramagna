@@ -4,14 +4,18 @@ import { Menu, ShoppingBag, X } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Logo } from "@/components/logo";
+import { useCart } from "@/components/cart-provider";
 import { navLinks } from "@/lib/data";
 
 export function Header() {
   const [open, setOpen] = useState(false);
   const [activeHref, setActiveHref] = useState<string>("");
+  const { itemCount, openCart } = useCart();
 
   useEffect(() => {
-    const sectionIds = navLinks.map((link) => link.href.replace("#", ""));
+    const sectionIds = navLinks.map((link) =>
+      link.href.replace("/#", "").replace("#", ""),
+    );
     const sections = sectionIds
       .map((id) => document.getElementById(id))
       .filter((el): el is HTMLElement => Boolean(el));
@@ -25,7 +29,7 @@ export function Header() {
           .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
 
         if (visible[0]?.target.id) {
-          setActiveHref(`#${visible[0].target.id}`);
+          setActiveHref(`/#${visible[0].target.id}`);
         }
       },
       {
@@ -71,20 +75,26 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <Link
-            href="#productos"
-            className="inline-flex h-10 w-10 items-center justify-center text-sm-white transition-all duration-200 hover:-translate-y-px hover:text-sm-red"
-            aria-label="Ver productos"
+          <button
+            type="button"
+            onClick={openCart}
+            className="relative inline-flex h-10 w-10 items-center justify-center text-sm-white transition-all duration-200 hover:-translate-y-px hover:text-sm-red"
+            aria-label={`Abrir carrito${itemCount > 0 ? `, ${itemCount} piezas` : ""}`}
           >
             <ShoppingBag className="h-5 w-5" strokeWidth={1.5} />
-          </Link>
+            {itemCount > 0 ? (
+              <span className="absolute right-0.5 top-0.5 flex h-4 min-w-4 items-center justify-center bg-sm-red px-1 font-sans text-[10px] font-bold text-sm-white">
+                {itemCount > 99 ? "99+" : itemCount}
+              </span>
+            ) : null}
+          </button>
 
           <button
             type="button"
             className="inline-flex h-10 w-10 items-center justify-center text-sm-white transition-colors duration-200 hover:text-sm-red lg:hidden"
             aria-expanded={open}
             aria-controls="mobile-menu"
-            aria-label={open ? "Cerrar menú" : "Abrir menú"}
+            aria-label={open ? "Cerrar menu" : "Abrir menu"}
             onClick={() => setOpen((prev) => !prev)}
           >
             {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -98,7 +108,10 @@ export function Header() {
           open ? "block" : "hidden"
         }`}
       >
-        <nav className="mx-auto flex max-w-7xl flex-col gap-1 px-4 py-4" aria-label="Móvil">
+        <nav
+          className="mx-auto flex max-w-7xl flex-col gap-1 px-4 py-4"
+          aria-label="Movil"
+        >
           {navLinks.map((link) => {
             const isActive = activeHref === link.href;
             return (

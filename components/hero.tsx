@@ -46,7 +46,7 @@ export function Hero() {
           presencia mexicana.
         </p>
         <div className="animate-fade-up delay-300 mt-8">
-          <Button href="#productos">Comprar ahora</Button>
+          <Button href="/#productos">Comprar ahora</Button>
         </div>
       </div>
     </section>
