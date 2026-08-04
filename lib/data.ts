@@ -69,7 +69,7 @@ export const categories = [
   },
 ] as const;
 
-/** Tallas Magellan Academy: XS, S, M, L, XL, 2XL, 3XL, 4XL */
+/** Tallas Magellan Academy (Laguna Madre / Casting Crew): XS–4XL */
 export const ALL_SIZES = [
   "XS",
   "S",
@@ -81,11 +81,22 @@ export const ALL_SIZES = [
   "4XL",
 ] as const;
 
+/** Falcon Lake Academy: S–3XL */
+export const FALCON_SIZES = ["S", "M", "L", "XL", "2XL", "3XL"] as const;
+
 export const SIZE_LABEL = ALL_SIZES.join(", ");
 
-export type CatalogLine = "laguna-mc" | "laguna-ml" | "casting-crew";
+export type CatalogLine =
+  | "laguna-mc"
+  | "laguna-ml"
+  | "falcon-lake"
+  | "casting-crew";
 
-export type CatalogSlug = "manga-corta" | "manga-larga" | "playeras";
+export type CatalogSlug =
+  | "manga-corta"
+  | "manga-larga"
+  | "falcon-lake"
+  | "playeras";
 
 export const catalogLines = [
   {
@@ -115,6 +126,20 @@ export const catalogLines = [
     coverImage: "/products/catalog/ml-sm/magellan.png",
     summary:
       "Camisa Laguna Madre manga larga. Proteccion y comodidad para jornadas largas al sol.",
+  },
+  {
+    id: "falcon-lake" as const,
+    slug: "falcon-lake" as const,
+    href: "/camisas/falcon-lake",
+    label: "Manga corta",
+    title: "Falcon Lake - Manga corta",
+    brand: "Magellan Outdoors",
+    model: "Falcon Lake",
+    kind: "Camisa",
+    price: "$950",
+    coverImage: "/products/catalog/fl-sm/moonlit-ocean.png",
+    summary:
+      "Camisa Falcon Lake manga corta. Ripstop ligero, UPF 50 y movilidad para pesca y outdoor.",
   },
   {
     id: "casting-crew" as const,
@@ -752,18 +777,113 @@ const catalogRaw: ProductInput[] = [
     image: "/products/catalog/crew/white-provence.png",
     sleeve: "Manga larga",
   },
+
+  // ---- Falcon Lake manga corta (10) ----
+  // https://www.academy.com/p/magellan-outdoors-mens-falcon-lake-button-down-shirt
+  {
+    id: "fl-mc-aqua-turquoise-dark-01",
+    line: "falcon-lake",
+    name: "Aqua or Turquoise Dark 01",
+    colorName: "Aqua or Turquoise Dark 01",
+    colorHex: "#0A6E6B",
+    image: "/products/catalog/fl-sm/aqua-turquoise-dark-01.png",
+    sleeve: "Manga corta",
+  },
+  {
+    id: "fl-mc-caviar",
+    line: "falcon-lake",
+    name: "Caviar",
+    colorName: "Caviar",
+    colorHex: "#1A1A1A",
+    image: "/products/catalog/fl-sm/caviar.png",
+    sleeve: "Manga corta",
+  },
+  {
+    id: "fl-mc-dark-turquoise-02",
+    line: "falcon-lake",
+    name: "Dark Turquoise 02",
+    colorName: "Dark Turquoise 02",
+    colorHex: "#0C4A52",
+    image: "/products/catalog/fl-sm/dark-turquoise-02.png",
+    sleeve: "Manga corta",
+  },
+  {
+    id: "fl-mc-light-blue-04",
+    line: "falcon-lake",
+    name: "Light Blue 04",
+    colorName: "Light Blue 04",
+    colorHex: "#8BBAD4",
+    image: "/products/catalog/fl-sm/light-blue-04.png",
+    sleeve: "Manga corta",
+  },
+  {
+    id: "fl-mc-light-orange-03",
+    line: "falcon-lake",
+    name: "Light Orange 03",
+    colorName: "Light Orange 03",
+    colorHex: "#E8974A",
+    image: "/products/catalog/fl-sm/light-orange-03.png",
+    sleeve: "Manga corta",
+  },
+  {
+    id: "fl-mc-monument",
+    line: "falcon-lake",
+    name: "Monument",
+    colorName: "Monument",
+    colorHex: "#6B7075",
+    image: "/products/catalog/fl-sm/monument.png",
+    sleeve: "Manga corta",
+  },
+  {
+    id: "fl-mc-moonlit-ocean",
+    line: "falcon-lake",
+    name: "Moonlit Ocean",
+    colorName: "Moonlit Ocean",
+    colorHex: "#1A3D4A",
+    image: "/products/catalog/fl-sm/moonlit-ocean.png",
+    sleeve: "Manga corta",
+  },
+  {
+    id: "fl-mc-tourmaline",
+    line: "falcon-lake",
+    name: "Tourmaline",
+    colorName: "Tourmaline",
+    colorHex: "#2D6B5A",
+    image: "/products/catalog/fl-sm/tourmaline.png",
+    sleeve: "Manga corta",
+  },
+  {
+    id: "fl-mc-huckleberry",
+    line: "falcon-lake",
+    name: "HUCKLEBERRY",
+    colorName: "HUCKLEBERRY",
+    colorHex: "#5A3A5C",
+    image: "/products/catalog/fl-sm/huckleberry.png",
+    sleeve: "Manga corta",
+  },
+  {
+    id: "fl-mc-mediterranea",
+    line: "falcon-lake",
+    name: "MEDITERRANEA",
+    colorName: "MEDITERRANEA",
+    colorHex: "#2F6B78",
+    image: "/products/catalog/fl-sm/mediterranea.png",
+    sleeve: "Manga corta",
+  },
 ];
 
 export const products = catalogRaw.map((p) => {
   const line = catalogLines.find((l) => l.id === p.line)!;
+  const sizes =
+    p.line === "falcon-lake" ? [...FALCON_SIZES] : [...ALL_SIZES];
   return {
     ...p,
     brand: BRAND,
     model: line.model,
     kind: line.kind,
     price: line.price,
-    sizes: [...ALL_SIZES],
-    sizeLabel: SIZE_LABEL,
+    sizes,
+    sizeLabel: sizes.join(", "),
   };
 });
 
@@ -789,8 +909,8 @@ export const productLine = {
 export const footerLinks = {
   tienda: [
     { href: "/#productos", label: "Camisas" },
-    { href: "/camisas/manga-corta", label: "Manga corta" },
-    { href: "/#marcas", label: "Marcas" },
+    { href: "/camisas/manga-corta", label: "Laguna Madre MC" },
+    { href: "/camisas/falcon-lake", label: "Falcon Lake" },
     { href: "/camisas/manga-larga", label: "Manga larga" },
   ],
   ayuda: [
@@ -802,7 +922,7 @@ export const footerLinks = {
   marca: [
     { href: "/#historia", label: "Nuestra historia" },
     { href: "/#marcas", label: "Marcas" },
-    { href: "/camisas/manga-larga", label: "Manga larga" },
+    { href: "/camisas/falcon-lake", label: "Falcon Lake" },
     { href: "/camisas/playeras", label: "Playeras" },
   ],
 } as const;

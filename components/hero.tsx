@@ -5,7 +5,7 @@ export function Hero() {
   return (
     <section className="relative min-h-[calc(100svh-6.5rem)] overflow-hidden">
       <Image
-        src="/brand/hero-sierra-presencia.png"
+        src="/brand/sierra-magna-portada.png"
         alt="Hombre de talla con presencia en la sierra — Sierra Magna"
         fill
         priority
@@ -42,7 +42,7 @@ export function Hero() {
           LA PRESENCIA TAMPOCO.
         </h1>
         <p className="animate-fade-up delay-200 mt-5 max-w-xl font-sans text-base leading-relaxed text-sm-gray/90 md:text-lg">
-          Ropa premium para hombre en tallas grandes. Estilo, comodidad y
+          Ropa premium. Estilo, comodidad y
           presencia mexicana.
         </p>
         <div className="animate-fade-up delay-300 mt-8">

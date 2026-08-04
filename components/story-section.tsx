@@ -7,30 +7,34 @@ export function StorySection() {
       id="historia"
       className="reveal border-t border-sm-border bg-sm-black"
     >
-      <div className="mx-auto grid max-w-7xl gap-10 px-4 py-20 sm:px-6 lg:grid-cols-2 lg:items-center lg:gap-16 lg:px-8 lg:py-28">
-        <div className="relative aspect-[4/5] overflow-hidden border border-sm-border lg:aspect-[5/6]">
+      <div className="mx-auto grid max-w-7xl gap-10 px-4 py-20 sm:px-6 lg:grid-cols-2 lg:items-stretch lg:gap-16 lg:px-8 lg:py-28">
+        <div className="relative min-h-[18rem] overflow-hidden border border-sm-border aspect-[16/10] sm:min-h-[22rem] lg:aspect-auto lg:min-h-full lg:h-full">
           <Image
-            src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1400&q=80"
-            alt="Paisaje de sierra mexicana"
+            src="/brand/historia-sierra-magna.png"
+            alt="Sierra Magna — Ropa para hombres de talla"
             fill
             sizes="(max-width: 1024px) 100vw, 50vw"
-            className="object-cover"
+            className="object-cover object-center"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-sm-black/50 to-transparent" />
         </div>
 
-        <div>
+        <div className="lg:flex lg:flex-col lg:justify-center">
           <SectionHeading
             eyebrow="Origen"
             title="Nuestra historia"
             className="mb-6 md:mb-8"
           />
           <p className="font-sans text-base leading-relaxed text-sm-gray/85 md:text-lg md:leading-8">
-            Sierra Magna nació de la amistad y de una realidad que vivimos día a
-            día: encontrar ropa elegante, moderna y de buena calidad en tallas
-            grandes es mucho más difícil de lo que debería ser. Creemos que la
-            talla nunca debería limitar el estilo. Por eso seleccionamos prendas
-            que permiten vestir con confianza, comodidad y presencia.
+          Sierra Magna nació de una idea compartida entre dos amigos que creían que vestir bien no debería depender de una talla.
+
+Descubrimos que muchos hombres encontraban pocas opciones para vestir con calidad, estilo y a un precio justo. Por eso decidimos crear un espacio donde cualquier hombre pudiera encontrar prendas que lo hicieran sentir seguro, cómodo y con confianza.
+
+Comenzamos con una selección de ropa outdoor, elegida por su calidad, funcionalidad y diseño. Pero nuestra visión va mucho más allá: queremos ofrecer cada vez más opciones, desde ropa y calzado hasta accesorios, siempre con el mismo compromiso de calidad y excelente precio.
+
+Porque en Sierra Magna creemos que la elegancia no tiene talla y que la verdadera presencia nace de la confianza con la que cada hombre decide vestir.
+
+Sierra Magna.
+Ropa para hombres de talla.
           </p>
         </div>
       </div>

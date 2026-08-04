@@ -14,7 +14,7 @@ export function CatalogHub() {
         <SectionHeading
           eyebrow="Catálogo Magellan"
           title="Elige tu línea"
-          description="Manga corta, manga larga o playeras. Entra al módulo y explora cada color con detalle."
+          description="Laguna Madre, Falcon Lake y playeras. Entra al módulo y explora cada color con detalle."
         />
 
         <div className="mb-8 flex flex-wrap items-center gap-4 border border-sm-border bg-[#141416] px-5 py-4">
@@ -28,11 +28,13 @@ export function CatalogHub() {
           <div className="h-6 w-px bg-sm-border" aria-hidden="true" />
           <p className="font-sans text-sm text-sm-gray/80">
             Una de las marcas que manejamos ·{" "}
-            <span className="text-sm-white">Modelo Laguna Madre</span>
+            <span className="text-sm-white">
+              Laguna Madre · Falcon Lake · Casting Crew
+            </span>
           </p>
         </div>
 
-        <div className="grid gap-5 lg:grid-cols-3">
+        <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
           {catalogLines.map((line) => {
             const count = getProductsByLine(line.id).length;
             return (

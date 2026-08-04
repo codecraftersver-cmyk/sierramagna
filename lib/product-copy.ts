@@ -26,6 +26,26 @@ const lagunaMadre: ProductCopy = {
   ],
 };
 
+const falconLake: ProductCopy = {
+  headline: "Camisa Magellan Outdoors Falcon Lake",
+  intro: [
+    "Tómate un día libre con la camisa Magellan Outdoors Falcon Lake. Fabricada en poliéster shadow ripstop 100%, ofrece una sensación cómoda y resistente para pesca, outdoor y uso diario.",
+    "Su tecnología que absorbe la humedad ayuda a mantenerte fresco y seco, mientras que la protección solar UPF 50 te resguarda de los rayos UV. La tecnología Flex favorece la movilidad sin sacrificar estilo.",
+    "Corte relajado, manga corta y cierre frontal con botones: una camisa lista para el campo, el agua o la ciudad.",
+  ],
+  featuresTitle: "Características",
+  features: [
+    "Material 100% poliéster shadow ripstop.",
+    "Protección solar UPF 50.",
+    "Tecnología moisture-wicking (absorbe humedad).",
+    "Tecnología Flex para mayor movilidad.",
+    "Manga corta y cierre con botones.",
+    "Corte relajado / classic fit.",
+    "Ideal para pesca y actividades al aire libre.",
+    "Lavable a máquina.",
+  ],
+};
+
 const castingCrew: ProductCopy = {
   headline: "Playera Magellan Outdoors Casting Crew",
   intro: [
@@ -44,5 +64,6 @@ const castingCrew: ProductCopy = {
 /** Copia genérica por línea de producto (mismo texto para todos los colores). */
 export function getProductCopy(line: CatalogLine): ProductCopy {
   if (line === "casting-crew") return castingCrew;
+  if (line === "falcon-lake") return falconLake;
   return lagunaMadre;
 }

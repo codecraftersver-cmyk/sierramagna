@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { Minus, Plus, X } from "lucide-react";
 import type { Product } from "@/lib/data";
@@ -18,16 +18,28 @@ type ProductModalProps = {
   onClose: () => void;
 };
 
+function selectionHint(size: string | null, quantity: number) {
+  const missingSize = !size;
+  const missingQty = quantity < 1;
+  if (missingSize && missingQty) {
+    return "Elige una talla y una cantidad mayor a 0.";
+  }
+  if (missingSize) return "Elige una talla para continuar.";
+  if (missingQty) return "La cantidad debe ser al menos 1.";
+  return null;
+}
+
 export function ProductModal({ product, onClose }: ProductModalProps) {
   const copy = getProductCopy(product.line);
   const { addItem } = useCart();
   const [mounted, setMounted] = useState(false);
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [qty, setQty] = useState(1);
-  const [sizeError, setSizeError] = useState(false);
+  const [selectionError, setSelectionError] = useState<string | null>(null);
   // const [igStep, setIgStep] = useState(false);
   // const [copied, setCopied] = useState(false);
   const [addedHint, setAddedHint] = useState(false);
+  const errorRef = useRef<HTMLParagraphElement>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -49,7 +61,7 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
   useEffect(() => {
     setSelectedSize(null);
     setQty(1);
-    setSizeError(false);
+    setSelectionError(null);
     // setIgStep(false);
     // setCopied(false);
     setAddedHint(false);
@@ -71,12 +83,16 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
     });
   }, [product, selectedSize]);
 
-  function ensureSizeSelected() {
-    if (!selectedSize) {
-      setSizeError(true);
+  function ensureSelectionReady() {
+    const hint = selectionHint(selectedSize, qty);
+    if (hint) {
+      setSelectionError(hint);
+      window.requestAnimationFrame(() => {
+        errorRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      });
       return false;
     }
-    setSizeError(false);
+    setSelectionError(null);
     return true;
   }
 
@@ -92,14 +108,14 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
   }
 
   function handleAddToCart() {
-    if (!ensureSizeSelected() || !selectedSize) return;
+    if (!ensureSelectionReady() || !selectedSize) return;
     addItem(productToCartItem(product, selectedSize, qty));
     setAddedHint(true);
     window.setTimeout(() => setAddedHint(false), 2500);
   }
 
   async function handleWhatsApp() {
-    if (!ensureSizeSelected()) return;
+    if (!ensureSelectionReady()) return;
     await copyOrderMessage();
     const ua = navigator.userAgent || "";
     const isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(ua);
@@ -113,7 +129,7 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
 
   // TODO: reactivar pedido por Instagram cuando definamos flujo en app/mobile
   // async function handleInstagram() {
-  //   if (!ensureSizeSelected()) return;
+  //   if (!ensureSelectionReady()) return;
   //   await copyOrderMessage();
   //   setIgStep(true);
   // }
@@ -226,7 +242,14 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
               <h4 className="font-sans text-xs font-semibold uppercase tracking-[0.18em] text-sm-red">
                 Elige tu talla
               </h4>
-              <div className="mt-3 flex flex-wrap gap-2">
+              <div
+                className={[
+                  "mt-3 flex flex-wrap gap-2 rounded-sm p-1 transition-shadow",
+                  selectionError && !selectedSize
+                    ? "ring-1 ring-sm-red/80"
+                    : "",
+                ].join(" ")}
+              >
                 {product.sizes.map((size) => {
                   const active = selectedSize === size;
                   return (
@@ -235,7 +258,7 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
                       type="button"
                       onClick={() => {
                         setSelectedSize(size);
-                        setSizeError(false);
+                        setSelectionError(selectionHint(size, qty));
                         // setIgStep(false);
                       }}
                       className={[
@@ -251,22 +274,30 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
                   );
                 })}
               </div>
-              {sizeError ? (
-                <p className="mt-2 font-sans text-xs text-sm-red">
-                  Selecciona una talla para continuar.
-                </p>
-              ) : null}
 
               <div className="mt-5">
                 <h4 className="font-sans text-xs font-semibold uppercase tracking-[0.18em] text-sm-red">
                   Cantidad
                 </h4>
-                <div className="mt-3 inline-flex items-center border border-sm-border">
+                <div
+                  className={[
+                    "mt-3 inline-flex items-center border",
+                    selectionError && qty < 1
+                      ? "border-sm-red"
+                      : "border-sm-border",
+                  ].join(" ")}
+                >
                   <button
                     type="button"
                     className="p-3 text-sm-white hover:text-sm-red"
                     aria-label="Quitar una"
-                    onClick={() => setQty((n) => Math.max(1, n - 1))}
+                    onClick={() =>
+                      setQty((n) => {
+                        const next = Math.max(0, n - 1);
+                        setSelectionError(selectionHint(selectedSize, next));
+                        return next;
+                      })
+                    }
                   >
                     <Minus className="h-4 w-4" />
                   </button>
@@ -277,7 +308,13 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
                     type="button"
                     className="p-3 text-sm-white hover:text-sm-red"
                     aria-label="Agregar una"
-                    onClick={() => setQty((n) => Math.min(20, n + 1))}
+                    onClick={() =>
+                      setQty((n) => {
+                        const next = Math.min(20, n + 1);
+                        setSelectionError(selectionHint(selectedSize, next));
+                        return next;
+                      })
+                    }
                   >
                     <Plus className="h-4 w-4" />
                   </button>
@@ -300,6 +337,15 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
             </div>
 
             <div className="flex flex-col gap-3 pt-1">
+              {selectionError ? (
+                <p
+                  ref={errorRef}
+                  role="alert"
+                  className="border border-sm-red/70 bg-sm-red/15 px-3 py-2.5 text-center font-sans text-sm font-semibold text-sm-red"
+                >
+                  {selectionError}
+                </p>
+              ) : null}
               <Button
                 type="button"
                 variant="primary"
