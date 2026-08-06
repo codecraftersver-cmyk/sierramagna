@@ -8,8 +8,16 @@ import type { Product } from "@/lib/data";
 import { productToCartItem } from "@/lib/cart";
 import { buildOrderMessage, getWhatsAppOrderUrl } from "@/lib/contact";
 import { getProductCopy } from "@/lib/product-copy";
+import {
+  AVAILABILITY_COPY,
+  availabilityWhatsAppLine,
+  formatNextTripLabel,
+  getProductAvailabilitySummary,
+  getSkuAvailability,
+} from "@/lib/inventory";
 import { useCart } from "@/components/cart-provider";
 // import { InstagramOrderPanel } from "@/components/instagram-order-panel";
+import { AvailabilityBadge } from "@/components/availability-badge";
 import { Button } from "@/components/ui/Button";
 import { SizeGuideBlock } from "@/components/size-guide-block";
 
@@ -41,6 +49,23 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
   const [addedHint, setAddedHint] = useState(false);
   const errorRef = useRef<HTMLParagraphElement>(null);
 
+  const productSummary = useMemo(
+    () => getProductAvailabilitySummary(product.id, product.sizes),
+    [product.id, product.sizes],
+  );
+
+  const selectedAvailability = useMemo(
+    () =>
+      selectedSize
+        ? getSkuAvailability(product.id, selectedSize)
+        : productSummary === "mixed"
+          ? "preorder"
+          : productSummary,
+    [product.id, selectedSize, productSummary],
+  );
+
+  const availabilityCopy = AVAILABILITY_COPY[selectedAvailability];
+
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -70,6 +95,7 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
   const orderMessage = useMemo(() => {
     if (!selectedSize || typeof window === "undefined") return "";
     const origin = window.location.origin;
+    const availability = getSkuAvailability(product.id, selectedSize);
     return buildOrderMessage({
       brand: product.brand,
       model: product.model,
@@ -80,6 +106,11 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
       price: product.price,
       photoUrl: `${origin}${product.image}`,
       pageUrl: window.location.href,
+      availabilityLabel: availabilityWhatsAppLine(availability),
+      paymentNote:
+        availability === "preorder"
+          ? "Anticipo: 50% para apartar; 50% contra entrega."
+          : "Pago: transferencia o efectivo al confirmar.",
     });
   }, [product, selectedSize]);
 
@@ -199,6 +230,28 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
                 <p className="font-sans text-sm font-semibold text-sm-white">
                   {product.price} MXN
                 </p>
+              </div>
+              <div className="mt-4 space-y-2">
+                <AvailabilityBadge
+                  availability={
+                    selectedSize ? selectedAvailability : productSummary
+                  }
+                />
+                <p className="font-sans text-xs leading-relaxed text-sm-gray/70">
+                  {selectedSize
+                    ? availabilityCopy.detail
+                    : productSummary === "mixed"
+                      ? "Algunas tallas tienen entrega inmediata. Elige talla para ver el tiempo exacto."
+                      : AVAILABILITY_COPY[
+                          productSummary === "in-stock" ? "in-stock" : "preorder"
+                        ].detail}
+                </p>
+                {selectedAvailability === "preorder" ||
+                (!selectedSize && productSummary === "preorder") ? (
+                  <p className="font-sans text-xs text-sm-gray/55">
+                    Proximo viaje a EE. UU.: {formatNextTripLabel()}.
+                  </p>
+                ) : null}
               </div>
             </div>
 
@@ -322,8 +375,8 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
               </div>
 
               <p className="mt-3 font-sans text-xs leading-relaxed text-sm-gray/55">
-                Puedes agregar varias camisas al carrito y al final pedir todas
-                por WhatsApp. Pago por transferencia o efectivo.
+                Puedes armar tu carrito y pedir por WhatsApp. En sobre pedido se
+                solicita anticipo del 50%; el resto contra entrega.
               </p>
               {addedHint ? (
                 <p className="mt-2 font-sans text-xs text-sm-white">
@@ -360,7 +413,9 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
                 className="w-full"
                 onClick={handleWhatsApp}
               >
-                Pedir ya por WhatsApp
+                {selectedAvailability === "in-stock"
+                  ? "Pedir ya por WhatsApp"
+                  : "Apartar por WhatsApp"}
               </Button>
               {/* TODO: reactivar pedido por Instagram
               <Button

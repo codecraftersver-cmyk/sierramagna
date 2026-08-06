@@ -24,6 +24,8 @@ export type OrderMessageInput = {
   price: string;
   photoUrl: string;
   pageUrl: string;
+  availabilityLabel: string;
+  paymentNote: string;
 };
 
 export function buildOrderMessage(input: OrderMessageInput): string {
@@ -37,6 +39,8 @@ export function buildOrderMessage(input: OrderMessageInput): string {
     `Color: ${input.colorName}`,
     `Talla: ${input.size}`,
     `Precio: ${input.price} MXN`,
+    input.availabilityLabel,
+    input.paymentNote,
     `Ver foto: ${input.photoUrl}`,
     "",
     "Forma de pago: transferencia o efectivo.",
@@ -62,11 +66,9 @@ export function openInstagramDm(): void {
   const isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(ua);
 
   if (isMobile) {
-    // Misma pestaña: el SO suele abrir la app de Instagram en lugar del navegador.
     window.location.href = url;
     return;
   }
 
   window.open(url, "_blank", "noopener,noreferrer");
 }
-

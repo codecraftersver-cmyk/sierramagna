@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { catalogLines, getProductsByLine } from "@/lib/data";
+import { formatNextTripLabel } from "@/lib/inventory";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 
 export function CatalogHub() {
@@ -14,8 +15,18 @@ export function CatalogHub() {
         <SectionHeading
           eyebrow="Catálogo Magellan"
           title="Elige tu línea"
-          description="Laguna Madre, Falcon Lake y playeras. Entra al módulo y explora cada color con detalle."
+          description="Laguna Madre, Falcon Lake y playeras. Entrega inmediata cuando hay stock; el resto sobre pedido desde EE. UU."
         />
+
+        <div className="mb-6 border border-amber-700/40 bg-amber-950/25 px-5 py-4">
+          <p className="font-sans text-sm text-amber-100/90">
+            Proximo pedido a EE. UU.:{" "}
+            <span className="font-semibold text-sm-white">
+              {formatNextTripLabel()}
+            </span>
+            . Aparta con anticipo del 50% las piezas sobre pedido.
+          </p>
+        </div>
 
         <div className="mb-8 flex flex-wrap items-center gap-4 border border-sm-border bg-[#141416] px-5 py-4">
           <Image

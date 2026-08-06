@@ -14,8 +14,9 @@ import {
   makeCartItemKey,
   type CartItem,
 } from "@/lib/cart";
+import { getSkuAvailability } from "@/lib/inventory";
 
-const STORAGE_KEY = "sierra-magna-cart-v1";
+const STORAGE_KEY = "sierra-magna-cart-v2";
 
 type CartContextValue = {
   items: CartItem[];
@@ -33,13 +34,37 @@ type CartContextValue = {
 
 const CartContext = createContext<CartContextValue | null>(null);
 
+function normalizeCartItem(raw: Partial<CartItem>): CartItem | null {
+  if (!raw?.productId || !raw?.size || !raw?.key) return null;
+  return {
+    key: raw.key,
+    productId: raw.productId,
+    brand: raw.brand ?? "",
+    model: raw.model ?? "",
+    kind: raw.kind ?? "",
+    sleeve: raw.sleeve ?? "",
+    name: raw.name ?? "",
+    colorName: raw.colorName ?? "",
+    size: raw.size,
+    priceLabel: raw.priceLabel ?? "",
+    priceValue: Number(raw.priceValue) || 0,
+    image: raw.image ?? "",
+    qty: Math.max(1, Number(raw.qty) || 1),
+    availability:
+      raw.availability ?? getSkuAvailability(raw.productId, raw.size),
+  };
+}
+
 function readStoredItems(): CartItem[] {
   if (typeof window === "undefined") return [];
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY);
     if (!raw) return [];
-    const parsed = JSON.parse(raw) as CartItem[];
-    return Array.isArray(parsed) ? parsed : [];
+    const parsed = JSON.parse(raw) as Partial<CartItem>[];
+    if (!Array.isArray(parsed)) return [];
+    return parsed
+      .map(normalizeCartItem)
+      .filter((item): item is CartItem => Boolean(item));
   } catch {
     return [];
   }

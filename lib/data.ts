@@ -1,6 +1,7 @@
 export const navLinks = [
   { href: "/#marcas", label: "Marcas" },
   { href: "/#productos", label: "Camisas" },
+  { href: "/#como-pedir", label: "Como pedir" },
   { href: "/#historia", label: "Historia" },
   { href: "/#contacto", label: "Contacto" },
 ] as const;
@@ -109,7 +110,7 @@ export const catalogLines = [
     model: "Laguna Madre",
     kind: "Camisa",
     price: "$750",
-    coverImage: "/products/catalog/mc-sm/brilliant-blue.png",
+    coverImage: "/products/catalog/mc-sm/brilliant-blue-v2.png",
     summary:
       "Camisa Laguna Madre manga corta. Ligera, transpirable y lista para el dia a dia outdoor.",
   },
@@ -123,7 +124,7 @@ export const catalogLines = [
     model: "Laguna Madre",
     kind: "Camisa",
     price: "$950",
-    coverImage: "/products/catalog/ml-sm/magellan.png",
+    coverImage: "/products/catalog/ml-sm/magellan-v2.png",
     summary:
       "Camisa Laguna Madre manga larga. Proteccion y comodidad para jornadas largas al sol.",
   },
@@ -210,8 +211,8 @@ const catalogRaw: ProductInput[] = [
     line: "laguna-mc",
     name: "Magellan",
     colorName: "Magellan",
-    colorHex: "#1B2A4A",
-    image: "/products/catalog/mc-sm/magellan.png",
+    colorHex: "#0A8A8C",
+    image: "/products/catalog/mc-sm/magellan-v2.png",
     sleeve: "Manga corta",
   },
   {
@@ -300,8 +301,8 @@ const catalogRaw: ProductInput[] = [
     line: "laguna-mc",
     name: "Deep Teal",
     colorName: "Deep Teal",
-    colorHex: "#1F6F6A",
-    image: "/products/catalog/mc-sm/deep-teal.png",
+    colorHex: "#14A8A8",
+    image: "/products/catalog/mc-sm/deep-teal-v2.png",
     sleeve: "Manga corta",
   },
   {
@@ -408,8 +409,8 @@ const catalogRaw: ProductInput[] = [
     line: "laguna-mc",
     name: "Brilliant Blue",
     colorName: "Brilliant Blue",
-    colorHex: "#1E5AA8",
-    image: "/products/catalog/mc-sm/brilliant-blue.png",
+    colorHex: "#1E6FD4",
+    image: "/products/catalog/mc-sm/brilliant-blue-v2.png",
     sleeve: "Manga corta",
   },
   {
@@ -417,8 +418,8 @@ const catalogRaw: ProductInput[] = [
     line: "laguna-mc",
     name: "Skipper Blue",
     colorName: "Skipper Blue",
-    colorHex: "#2E5A8C",
-    image: "/products/catalog/mc-sm/skipper-blue.png",
+    colorHex: "#1A2F55",
+    image: "/products/catalog/mc-sm/skipper-blue-v2.png",
     sleeve: "Manga corta",
   },
   {
@@ -483,8 +484,8 @@ const catalogRaw: ProductInput[] = [
     line: "laguna-ml",
     name: "Magellan",
     colorName: "Magellan",
-    colorHex: "#1B2A4A",
-    image: "/products/catalog/ml-sm/magellan.png",
+    colorHex: "#0A8A8C",
+    image: "/products/catalog/ml-sm/magellan-v2.png",
     sleeve: "Manga larga",
   },
   {
@@ -582,8 +583,8 @@ const catalogRaw: ProductInput[] = [
     line: "laguna-ml",
     name: "Blarney",
     colorName: "Blarney",
-    colorHex: "#2F6B4F",
-    image: "/products/catalog/ml-sm/blarney.png",
+    colorHex: "#2DB86A",
+    image: "/products/catalog/ml-sm/blarney-v2.png",
     sleeve: "Manga larga",
   },
   {
@@ -591,8 +592,8 @@ const catalogRaw: ProductInput[] = [
     line: "laguna-ml",
     name: "Deep Teal",
     colorName: "Deep Teal",
-    colorHex: "#1F6F6A",
-    image: "/products/catalog/ml-sm/deep-teal.png",
+    colorHex: "#5A9A96",
+    image: "/products/catalog/ml-sm/deep-teal-v2.png",
     sleeve: "Manga larga",
   },
   {
@@ -609,8 +610,8 @@ const catalogRaw: ProductInput[] = [
     line: "laguna-ml",
     name: "Fjord Blue",
     colorName: "Fjord Blue",
-    colorHex: "#4A6F8C",
-    image: "/products/catalog/ml-sm/fjord-blue.png",
+    colorHex: "#00AEEF",
+    image: "/products/catalog/ml-sm/fjord-blue-v2.png",
     sleeve: "Manga larga",
   },
   {
@@ -618,8 +619,8 @@ const catalogRaw: ProductInput[] = [
     line: "laguna-ml",
     name: "Skipper Blue",
     colorName: "Skipper Blue",
-    colorHex: "#2E5A8C",
-    image: "/products/catalog/ml-sm/skipper-blue.png",
+    colorHex: "#4F5A95",
+    image: "/products/catalog/ml-sm/skipper-blue-v2.png",
     sleeve: "Manga larga",
   },
   {

@@ -1,4 +1,9 @@
 import type { Product } from "@/lib/data";
+import {
+  type Availability,
+  availabilityWhatsAppLine,
+  getSkuAvailability,
+} from "@/lib/inventory";
 
 export type CartItem = {
   key: string;
@@ -14,6 +19,7 @@ export type CartItem = {
   priceValue: number;
   image: string;
   qty: number;
+  availability: Availability;
 };
 
 export function parsePriceValue(priceLabel: string): number {
@@ -44,6 +50,7 @@ export function productToCartItem(
     priceValue: parsePriceValue(product.price),
     image: product.image,
     qty,
+    availability: getSkuAvailability(product.id, size),
   };
 }
 
@@ -69,6 +76,8 @@ export function buildCartOrderMessage(
   origin: string,
 ): string {
   const { itemCount, total } = getCartTotals(items);
+  const hasPreorder = items.some((item) => item.availability === "preorder");
+
   const lines = items.flatMap((item, index) => [
     `${index + 1}. ${item.brand} ${item.model}`,
     `   Color: ${item.colorName}`,
@@ -77,6 +86,7 @@ export function buildCartOrderMessage(
     `   Cantidad: ${item.qty}`,
     `   Precio unitario: ${item.priceLabel} MXN`,
     `   Subtotal: ${formatMxn(item.priceValue * item.qty)}`,
+    `   ${availabilityWhatsAppLine(item.availability)}`,
     `   Foto: ${origin}${item.image}`,
     "",
   ]);
@@ -90,6 +100,9 @@ export function buildCartOrderMessage(
     `Total de piezas: ${itemCount}`,
     `Total a pagar: ${formatMxn(total)}`,
     "",
+    hasPreorder
+      ? "Nota: hay piezas sobre pedido. Anticipo 50% para apartar; 50% contra entrega."
+      : "Disponibilidad: entrega inmediata.",
     "Forma de pago: transferencia o efectivo.",
     "Quedo atento(a) a su confirmacion para continuar.",
   ].join("\n");

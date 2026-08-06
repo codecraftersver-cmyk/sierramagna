@@ -149,6 +149,11 @@ export function CartDrawer() {
                     <p className="mt-1 font-sans text-xs text-sm-gray/70">
                       {item.sleeve} · Talla {item.size}
                     </p>
+                    <p className="mt-1 font-sans text-[10px] uppercase tracking-[0.12em] text-sm-gray/55">
+                      {item.availability === "in-stock"
+                        ? "Entrega inmediata"
+                        : "Sobre pedido · anticipo 50%"}
+                    </p>
                     <p className="mt-1 font-sans text-sm text-sm-white">
                       {item.priceLabel} MXN
                     </p>
