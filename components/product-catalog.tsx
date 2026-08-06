@@ -12,6 +12,7 @@ import {
 import {
   getProductAvailabilitySummary,
   formatNextTripLabel,
+  getSkuAvailability,
 } from "@/lib/inventory";
 import { AvailabilityBadge } from "@/components/availability-badge";
 import { ProductModal } from "@/components/product-modal";
@@ -140,15 +141,43 @@ export function ProductCatalog({ line, items }: ProductCatalogProps) {
                         aria-label={`Color ${product.colorName}`}
                       />
                     </div>
-                    <div className="flex flex-wrap gap-1.5">
-                      {product.sizes.map((size) => (
-                        <span
-                          key={size}
-                          className="border border-sm-border px-1.5 py-0.5 font-sans text-[10px] font-semibold uppercase tracking-[0.08em] text-sm-gray/80"
-                        >
-                          {size}
-                        </span>
-                      ))}
+                    <div className="space-y-1.5">
+                      {product.sizes.some(
+                        (size) =>
+                          getSkuAvailability(product.id, size) === "in-stock",
+                      ) ? (
+                        <p className="inline-flex items-center gap-1.5 font-sans text-[10px] text-sm-gray/55">
+                          <span
+                            className="h-1.5 w-1.5 rounded-full bg-emerald-400"
+                            aria-hidden="true"
+                          />
+                          Verde = entrega inmediata
+                        </p>
+                      ) : null}
+                      <div className="flex flex-wrap gap-1.5">
+                        {product.sizes.map((size) => {
+                          const sizeStock =
+                            getSkuAvailability(product.id, size) === "in-stock";
+                          return (
+                            <span
+                              key={size}
+                              title={
+                                sizeStock
+                                  ? `${size}: entrega inmediata`
+                                  : `${size}: sobre pedido`
+                              }
+                              className={[
+                                "border px-1.5 py-0.5 font-sans text-[10px] font-semibold uppercase tracking-[0.08em]",
+                                sizeStock
+                                  ? "border-emerald-600/70 bg-emerald-950/50 text-emerald-300"
+                                  : "border-sm-border text-sm-gray/80",
+                              ].join(" ")}
+                            >
+                              {size}
+                            </span>
+                          );
+                        })}
+                      </div>
                     </div>
                     <div className="flex items-center justify-between gap-2">
                       <p className="font-sans text-[11px] text-sm-gray/55">

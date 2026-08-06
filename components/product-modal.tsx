@@ -241,7 +241,7 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
                   {selectedSize
                     ? availabilityCopy.detail
                     : productSummary === "mixed"
-                      ? "Algunas tallas tienen entrega inmediata. Elige talla para ver el tiempo exacto."
+                      ? "Las tallas en verde tienen entrega inmediata. El resto va sobre pedido."
                       : AVAILABILITY_COPY[
                           productSummary === "in-stock" ? "in-stock" : "preorder"
                         ].detail}
@@ -295,6 +295,13 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
               <h4 className="font-sans text-xs font-semibold uppercase tracking-[0.18em] text-sm-red">
                 Elige tu talla
               </h4>
+              <p className="mt-2 inline-flex items-center gap-2 font-sans text-[11px] text-sm-gray/65">
+                <span
+                  className="inline-block h-2.5 w-2.5 rounded-full bg-emerald-400"
+                  aria-hidden="true"
+                />
+                Verde = entrega inmediata
+              </p>
               <div
                 className={[
                   "mt-3 flex flex-wrap gap-2 rounded-sm p-1 transition-shadow",
@@ -305,6 +312,8 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
               >
                 {product.sizes.map((size) => {
                   const active = selectedSize === size;
+                  const sizeStock =
+                    getSkuAvailability(product.id, size) === "in-stock";
                   return (
                     <button
                       key={size}
@@ -317,10 +326,19 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
                       className={[
                         "min-w-[3rem] border px-3 py-2 text-center font-sans text-xs font-semibold uppercase tracking-[0.12em] transition-colors",
                         active
-                          ? "border-sm-red bg-sm-red text-sm-white"
-                          : "border-sm-border text-sm-white hover:border-sm-red hover:text-sm-red",
+                          ? sizeStock
+                            ? "border-emerald-500 bg-emerald-600 text-sm-white"
+                            : "border-sm-red bg-sm-red text-sm-white"
+                          : sizeStock
+                            ? "border-emerald-600/80 bg-emerald-950/45 text-emerald-100 hover:border-emerald-400"
+                            : "border-sm-border text-sm-white hover:border-sm-red hover:text-sm-red",
                       ].join(" ")}
                       aria-pressed={active}
+                      title={
+                        sizeStock
+                          ? `${size}: entrega inmediata`
+                          : `${size}: sobre pedido`
+                      }
                     >
                       {size}
                     </button>
