@@ -46,6 +46,22 @@ const falconLake: ProductCopy = {
   ],
 };
 
+const fiestasPatrias: ProductCopy = {
+  headline: "Camisa Magellan Fiestas Patrias",
+  intro: [
+    "Edición especial para las Fiestas Patrias del 16 de septiembre. Una camisa Magellan manga corta con la bandera de México, pensada para lucir presencia mexicana con comodidad outdoor.",
+    "Disponible en blanca y verde. Tallas XS a XXXL. Sobre pedido: se trae en el siguiente viaje a EE. UU. Anticipo 50%, resto contra entrega.",
+  ],
+  featuresTitle: "Características",
+  features: [
+    "Edición Fiestas Patrias 16 de septiembre.",
+    "Manga corta con gráfico de la bandera de México.",
+    "Colores: blanca o verde.",
+    "Tallas XS a XXXL.",
+    "Sobre pedido · anticipo 50%.",
+  ],
+};
+
 const castingCrew: ProductCopy = {
   headline: "Playera Magellan Outdoors Casting Crew",
   intro: [
@@ -65,5 +81,6 @@ const castingCrew: ProductCopy = {
 export function getProductCopy(line: CatalogLine): ProductCopy {
   if (line === "casting-crew") return castingCrew;
   if (line === "falcon-lake") return falconLake;
+  if (line === "fiestas-patrias") return fiestasPatrias;
   return lagunaMadre;
 }
