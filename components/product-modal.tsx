@@ -11,7 +11,6 @@ import { getProductCopy } from "@/lib/product-copy";
 import {
   AVAILABILITY_COPY,
   availabilityWhatsAppLine,
-  formatNextTripLabel,
   getProductAvailabilitySummary,
   getSkuAvailability,
 } from "@/lib/inventory";
@@ -246,12 +245,6 @@ export function ProductModal({ product, onClose }: ProductModalProps) {
                           productSummary === "in-stock" ? "in-stock" : "preorder"
                         ].detail}
                 </p>
-                {selectedAvailability === "preorder" ||
-                (!selectedSize && productSummary === "preorder") ? (
-                  <p className="font-sans text-xs text-sm-gray/55">
-                    Proximo viaje a EE. UU.: {formatNextTripLabel()}.
-                  </p>
-                ) : null}
               </div>
             </div>
 

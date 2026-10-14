@@ -16,9 +16,6 @@ export type StockSku = {
   size: string;
 };
 
-/** Próximo viaje / pedido a EE. UU. (editar cuando cambie la fecha). */
-export const NEXT_US_TRIP_DATE = "2026-08-22";
-
 /** Piezas con entrega inmediata (1–3 días). Vacío = todo sobre pedido. */
 export const inStockSkus: StockSku[] = [
   // Laguna Madre manga larga
@@ -44,7 +41,7 @@ export const AVAILABILITY_COPY = {
   preorder: {
     shortLabel: "Sobre pedido",
     detail:
-      "Se importa desde EE. UU. en nuestro siguiente viaje. Tiempo estimado: 15 a 25 dias. Anticipo 50%, resto contra entrega.",
+      "Se importa desde EE. UU. Tiempo estimado: 15 a 25 dias. Anticipo 50%, resto contra entrega.",
     eta: "15–25 dias",
     badgeClass: "border-amber-700/60 bg-amber-950/40 text-amber-200",
   },
@@ -78,15 +75,6 @@ export function getProductAvailabilitySummary(
   if (stock === 0) return "preorder";
   if (stock === sizes.length) return "in-stock";
   return "mixed";
-}
-
-export function formatNextTripLabel(dateIso = NEXT_US_TRIP_DATE): string {
-  const date = new Date(`${dateIso}T12:00:00`);
-  return new Intl.DateTimeFormat("es-MX", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  }).format(date);
 }
 
 export function availabilityWhatsAppLine(availability: Availability): string {

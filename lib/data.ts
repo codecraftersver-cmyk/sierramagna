@@ -1,5 +1,4 @@
 export const navLinks = [
-  { href: "/#fiestas-patrias", label: "16 Sep" },
   { href: "/#marcas", label: "Marcas" },
   { href: "/#productos", label: "Camisas" },
   { href: "/#como-pedir", label: "Como pedir" },
@@ -86,23 +85,18 @@ export const ALL_SIZES = [
 /** Falcon Lake Academy: S–3XL */
 export const FALCON_SIZES = ["S", "M", "L", "XL", "2XL", "3XL"] as const;
 
-/** Fiestas Patrias Magellan: XS–XXXL */
-export const FIESTAS_SIZES = ["XS", "S", "M", "L", "XL", "XXL", "XXXL"] as const;
-
 export const SIZE_LABEL = ALL_SIZES.join(", ");
 
 export type CatalogLine =
   | "laguna-mc"
   | "laguna-ml"
   | "falcon-lake"
-  | "fiestas-patrias"
   | "casting-crew";
 
 export type CatalogSlug =
   | "manga-corta"
   | "manga-larga"
   | "falcon-lake"
-  | "fiestas-patrias"
   | "playeras";
 
 export const catalogLines = [
@@ -147,20 +141,6 @@ export const catalogLines = [
     coverImage: "/products/catalog/fl-sm/moonlit-ocean.png",
     summary:
       "Camisa Falcon Lake manga corta. Ripstop ligero, UPF 50 y movilidad para pesca y outdoor.",
-  },
-  {
-    id: "fiestas-patrias" as const,
-    slug: "fiestas-patrias" as const,
-    href: "/camisas/fiestas-patrias",
-    label: "16 Sep",
-    title: "Fiestas Patrias - Manga corta",
-    brand: "Magellan Outdoors",
-    model: "Fiestas Patrias",
-    kind: "Camisa",
-    price: "$1100",
-    coverImage: "/products/promo/fiestas-patrias/blanca-frente-sm.png",
-    summary:
-      "Camisa Magellan edicion Fiestas Patrias. Aparta tu pedido para el 16 de septiembre.",
   },
   {
     id: "casting-crew" as const,
@@ -891,36 +871,12 @@ const catalogRaw: ProductInput[] = [
     image: "/products/catalog/fl-sm/mediterranea.png",
     sleeve: "Manga corta",
   },
-
-  // ---- Fiestas Patrias manga corta (2) ----
-  {
-    id: "fp-mc-blanca",
-    line: "fiestas-patrias",
-    name: "Blanca",
-    colorName: "Blanca",
-    colorHex: "#F4F4F0",
-    image: "/products/promo/fiestas-patrias/blanca-frente-sm.png",
-    sleeve: "Manga corta",
-  },
-  {
-    id: "fp-mc-verde",
-    line: "fiestas-patrias",
-    name: "Verde",
-    colorName: "Verde",
-    colorHex: "#006847",
-    image: "/products/promo/fiestas-patrias/verde-espalda-sm.png",
-    sleeve: "Manga corta",
-  },
 ];
 
 export const products = catalogRaw.map((p) => {
   const line = catalogLines.find((l) => l.id === p.line)!;
   const sizes =
-    p.line === "falcon-lake"
-      ? [...FALCON_SIZES]
-      : p.line === "fiestas-patrias"
-        ? [...FIESTAS_SIZES]
-        : [...ALL_SIZES];
+    p.line === "falcon-lake" ? [...FALCON_SIZES] : [...ALL_SIZES];
   return {
     ...p,
     brand: BRAND,
@@ -957,7 +913,6 @@ export const footerLinks = {
     { href: "/camisas/manga-corta", label: "Laguna Madre MC" },
     { href: "/camisas/falcon-lake", label: "Falcon Lake" },
     { href: "/camisas/manga-larga", label: "Manga larga" },
-    { href: "/#fiestas-patrias", label: "Fiestas Patrias" },
   ],
   ayuda: [
     { href: "/#contacto", label: "Envios" },

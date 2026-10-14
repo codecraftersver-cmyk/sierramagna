@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { formatNextTripLabel } from "@/lib/inventory";
 
 export function HowToOrder() {
   return (
@@ -17,18 +16,9 @@ export function HowToOrder() {
         <p className="mt-4 max-w-2xl font-sans text-base leading-relaxed text-sm-gray/75">
           Importamos directamente desde Estados Unidos para ofrecer mas variedad
           de modelos, colores y tallas. Si una prenda no esta en entrega
-          inmediata, la traemos especialmente para ti en nuestro siguiente
-          viaje.
+          inmediata, la traemos especialmente para ti. Tiempo estimado: 15 a 25
+          dias.
         </p>
-
-        <div className="mt-8 border border-amber-700/40 bg-amber-950/25 px-5 py-4">
-          <p className="font-sans text-sm text-amber-100/90">
-            Proximo pedido a EE. UU.:{" "}
-            <span className="font-semibold text-sm-white">
-              {formatNextTripLabel()}
-            </span>
-          </p>
-        </div>
 
         <ol className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           {[
@@ -50,7 +40,7 @@ export function HowToOrder() {
             {
               n: "04",
               t: "Recibe tu pedido",
-              d: "Inmediato (1-3 dias) o en el siguiente viaje (15-25 dias).",
+              d: "Inmediato (1-3 dias) o sobre pedido (15-25 dias).",
             },
           ].map((step) => (
             <li key={step.n} className="border border-sm-border bg-[#141416] p-5">

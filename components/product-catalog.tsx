@@ -11,7 +11,6 @@ import {
 } from "@/lib/data";
 import {
   getProductAvailabilitySummary,
-  formatNextTripLabel,
   getSkuAvailability,
 } from "@/lib/inventory";
 import { AvailabilityBadge } from "@/components/availability-badge";
@@ -51,11 +50,7 @@ export function ProductCatalog({ line, items }: ProductCatalogProps) {
           <p className="font-sans text-sm text-amber-100/90">
             La mayoria de colores van{" "}
             <span className="font-semibold text-sm-white">sobre pedido</span>{" "}
-            (importacion EE. UU., 15–25 dias). Anticipo 50%. Proximo viaje:{" "}
-            <span className="font-semibold text-sm-white">
-              {formatNextTripLabel()}
-            </span>
-            .
+            (importacion EE. UU., 15–25 dias). Anticipo 50%.
           </p>
         </div>
 
